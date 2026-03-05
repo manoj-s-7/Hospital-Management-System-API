@@ -1,8 +1,13 @@
 package com.manojs.hospitalmanagement.service;
 
 import com.manojs.hospitalmanagement.dto.BloodGroupCountDTO;
+import com.manojs.hospitalmanagement.dto.PatientRequestDto;
+import com.manojs.hospitalmanagement.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.entity.Patient;
+import com.manojs.hospitalmanagement.exception.ResourceNotFoundException;
+import com.manojs.hospitalmanagement.mapper.PatientMapper;
 import com.manojs.hospitalmanagement.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,30 +20,53 @@ import java.util.List;
 public class PatientService {
 
     private final PatientRepository patientRepository;
+    private final PatientMapper patientMapper;
 
-    public List<Patient> getAllPatients() {
-        return patientRepository.findAll();
+    public List<PatientResponseDto> getAllPatients() {
+        List<Patient> patientList = patientRepository.findAll();
+        return patientList.stream().map(patientMapper::toPatientDto).toList();
     }
 
-    public Patient getPatientById(Long id) {
-        return patientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
+    public PatientResponseDto getPatientById(Long id) {
+
+        Patient byId = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
+
+        return patientMapper.toPatientDto(byId);
     }
 
-    public Patient savePatient(Patient patient) {
-        return patientRepository.save(patient);
+    public PatientResponseDto savePatient(PatientRequestDto patient) {
+        Patient saved = patientRepository.save(patientMapper.toPatient(patient));
+        return patientMapper.toPatientDto(saved);
     }
 
-    public List<Patient> findByName(String name) {
+    @Transactional
+    public PatientResponseDto updatePatient(Long id, PatientRequestDto patientRequestDto) {
+        Patient byId = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
+        patientMapper.updatePatient(byId, patientRequestDto);
+        return patientMapper.toPatientDto(byId);
+    }
+
+    @Transactional
+    public void deletePatient(Long id) {
+        Patient byId = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
+        patientRepository.delete(byId);
+    }
+
+    public List<PatientResponseDto> findByName(String name) {
         return patientRepository.findByName(name)
-                .map(List::of)   // Only if repo returns Optional<Patient>
-                .orElse(List.of());
+                .map(patientMapper::toPatientDto)
+                .stream().toList();
     }
-    public List<BloodGroupCountDTO> bloodGroupCount(){
+
+    public List<BloodGroupCountDTO> bloodGroupCount() {
         return patientRepository.groupByBloodGroup();
     }
 
-    public Page<Patient> findAllPatients(Pageable pageable){
-        return patientRepository.findAllPatients(pageable);
+    public Page<PatientResponseDto> findAllPatients(Pageable pageable) {
+        return patientRepository.findAll(pageable)
+                .map(patientMapper::toPatientDto);
     }
 }

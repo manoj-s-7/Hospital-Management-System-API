@@ -36,27 +36,5 @@ public class PatientTests {
         System.out.println(patientRepositoryByName);
 
     }
-    @Test
-    void JPQLTest(){
-//        List<Patient> aPositive = patientRepository.findByBloodGroup(BloodGroupType.A_Positive);
-//        System.out.println(aPositive);
-//
-//        List<BloodGroupCountDTO> patients = patientRepository.groupByBloodGroup();
-//        System.out.println(patients);
-
-//        List<Patient> patientByBornAfterDate = patientRepository.findPatientByBornAfterDate(LocalDate.of(2003, 3, 14));
-//        System.out.println(patientByBornAfterDate);
-
-//        List<Patient> aLlMalePatients = patientRepository.findALlMalePatients();
-//        System.out.println(aLlMalePatients);
-
-//        int rowCount = patientRepository.updateNameByID("Manthan KU", 1L);
-//        System.out.println(rowCount);
-
-//        Page<Patient> allPatients = patientRepository.findAllPatients(PageRequest.of(0, 10, Sort.by("name")));
-//        allPatients.forEach(System.out::println);
-
-        System.out.println(patientRepository.findPatientContact(PageRequest.of(0,10,Sort.by("name"))));
-    }
 
 }
