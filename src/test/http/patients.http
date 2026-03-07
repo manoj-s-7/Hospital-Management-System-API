@@ -1,6 +1,6 @@
 ### 1. Get All Patients (Pagination + Sorting)
 
-GET {{host}}/api/patients?page=0&size=10&sortField=createdAt&sortDir=desc
+GET {{host}}/api/patients?page=0&size=10&sortField=created_at&sortDir=desc
 Accept: application/json
 
 ### 2. Get Patients - Different Page

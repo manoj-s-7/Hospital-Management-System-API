@@ -19,6 +19,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     @Query("SELECT new com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO(p.bloodGroup,COUNT(p)) From Patient p GROUP BY p.bloodGroup")
     List<BloodGroupCountDTO> groupByBloodGroup();
 
-    @Query(value = "SELECT * FROM patients_table", nativeQuery = true)
+    @Query(value = "SELECT * FROM patient", countQuery = "SELECT COUNT(*) FROM patient",
+            nativeQuery = true)
     Page<Patient> findAllPatients(Pageable pageable);
 }

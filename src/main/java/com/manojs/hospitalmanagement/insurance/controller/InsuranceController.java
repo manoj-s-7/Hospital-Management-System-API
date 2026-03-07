@@ -4,6 +4,7 @@ import com.manojs.hospitalmanagement.insurance.dto.InsuranceRequestDto;
 import com.manojs.hospitalmanagement.insurance.dto.InsuranceResponseDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.insurance.service.InsuranceService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,22 +30,19 @@ public class InsuranceController {
     }
 
     @PostMapping(path = "/{id}")
-    public ResponseEntity<PatientResponseDto> addInsurance(@RequestBody InsuranceRequestDto insurance, @PathVariable Long id) {
+    public ResponseEntity<PatientResponseDto> addInsurance(@Valid @RequestBody InsuranceRequestDto insurance, @PathVariable Long id) {
         return new ResponseEntity<>(insuranceService.assignInsuranceToPatient(insurance, id), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{id}")
-    public ResponseEntity<PatientResponseDto> updateInsurance(@RequestBody InsuranceRequestDto insurance, @PathVariable Long id) {
+    public ResponseEntity<PatientResponseDto> updateInsurance(@Valid @RequestBody InsuranceRequestDto insurance, @PathVariable Long id) {
         return new ResponseEntity<>(insuranceService.updateInsurance(id, insurance), HttpStatus.ACCEPTED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteInsurance(@PathVariable Long id) {
-        try {
-            insuranceService.deleteInsurance(id);
+        insuranceService.deleteInsurance(id);
             return ResponseEntity.noContent().build();
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
         }
     }
-}
+

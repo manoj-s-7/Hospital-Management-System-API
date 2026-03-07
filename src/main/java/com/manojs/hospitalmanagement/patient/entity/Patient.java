@@ -55,7 +55,7 @@ public class Patient {
     private BloodGroupType bloodGroup;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "patient_insurance_id",unique = true)
+    @JoinColumn(name = "insurance_id",unique = true)
     private Insurance insurance;
 
     @OneToMany(mappedBy = "patient")

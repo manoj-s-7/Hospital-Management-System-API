@@ -1,6 +1,7 @@
 package com.manojs.hospitalmanagement.patient.service.impl;
 
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
+import com.manojs.hospitalmanagement.patient.dto.PageResponse;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.entity.Patient;
@@ -74,8 +75,9 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public Page<PatientResponseDto> findAllPatients(Pageable pageable) {
-        return patientRepository.findAll(pageable)
+    public PageResponse<PatientResponseDto> findAllPatients(Pageable pageable) {
+        Page<PatientResponseDto> allPatients = patientRepository.findAllPatients(pageable)
                 .map(patientMapper::toDto);
+        return PageResponse.from(allPatients);
     }
 }

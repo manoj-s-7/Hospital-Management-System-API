@@ -1,12 +1,12 @@
 package com.manojs.hospitalmanagement.patient.controller;
 
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
+import com.manojs.hospitalmanagement.patient.dto.PageResponse;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.service.PatientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -30,7 +30,7 @@ public class PatientController {
     private final PatientService patientService;
 
     @GetMapping
-    public ResponseEntity<Page<PatientResponseDto>> findAllPatients(
+    public ResponseEntity<PageResponse<PatientResponseDto>> findAllPatients(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "createdAt") String sortField,
