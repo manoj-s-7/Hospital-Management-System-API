@@ -86,3 +86,24 @@ Accept: application/json
 
 GET {{host}}/api/patients/blood-groups/count
 Accept: application/json
+
+###  13. Get Gender Stats
+
+GET {{host}}/api/patients/stats/gender
+Accept: application/json
+
+### 14. Get Agae Stats
+GET {{host}}/api/patients/stats/age
+Accept: application/json
+
+### 15. patient filter
+GET {{host}}/api/patients/filter?gender=male&minAge=18&page=0&size=10
+Accept: application/json
+
+### 16. patient filter(by insurance)
+GET {{host}}/api/patients/filter?hasInsurance=true
+Accept: application/json
+
+### 17. patient filter(by name and gender)
+GET {{host}}/api/patients/filter?name=arjun&gender=male&bloodbloodGroup=A_Negative
+Accept: application/json

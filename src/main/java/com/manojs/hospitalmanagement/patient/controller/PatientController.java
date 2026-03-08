@@ -1,7 +1,10 @@
 package com.manojs.hospitalmanagement.patient.controller;
 
+import com.manojs.hospitalmanagement.patient.dto.AgeGroupDto;
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
+import com.manojs.hospitalmanagement.patient.dto.GenderDto;
 import com.manojs.hospitalmanagement.patient.dto.PageResponse;
+import com.manojs.hospitalmanagement.patient.dto.PatientFilterDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.service.PatientService;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -80,5 +84,33 @@ public class PatientController {
     public ResponseEntity<List<BloodGroupCountDTO>> getBloodGroupCount() {
         return ResponseEntity.ok(patientService.bloodGroupCount());
     }
+
+    @GetMapping("/stats/gender")
+    public ResponseEntity<GenderDto> getGenderStats(){
+        return ResponseEntity.ok(patientService.genderCountStats());
+    }
+
+    @GetMapping("/stats/age")
+    private ResponseEntity<AgeGroupDto> getAgeStats(){
+        return ResponseEntity.ok(patientService.getAgeGroupStats());
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<PageResponse<PatientResponseDto>> filterPatients(
+            @ModelAttribute PatientFilterDto filter,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "createdAt") String sortField,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        return ResponseEntity.ok(
+                patientService.filterPatients(filter, PageRequest.of(page, size, sort))
+        );
+    }
+
 }
 

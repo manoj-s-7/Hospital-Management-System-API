@@ -1,7 +1,10 @@
 package com.manojs.hospitalmanagement.patient.service.impl;
 
+import com.manojs.hospitalmanagement.patient.dto.AgeGroupDto;
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
+import com.manojs.hospitalmanagement.patient.dto.GenderDto;
 import com.manojs.hospitalmanagement.patient.dto.PageResponse;
+import com.manojs.hospitalmanagement.patient.dto.PatientFilterDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.entity.Patient;
@@ -13,6 +16,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -79,5 +83,31 @@ public class PatientServiceImpl implements PatientService {
         Page<PatientResponseDto> allPatients = patientRepository.findAllPatients(pageable)
                 .map(patientMapper::toDto);
         return PageResponse.from(allPatients);
+    }
+
+    @Override
+    public GenderDto genderCountStats() {
+        return patientRepository.genderStats();
+    }
+
+    @Override
+    public AgeGroupDto getAgeGroupStats() {
+        return patientRepository.getAgeGroupStats();
+    }
+
+    public PageResponse<PatientResponseDto> filterPatients(
+            PatientFilterDto filter, Pageable pageable) {
+
+        Specification<Patient> spec = Specification
+                .where(PatientSpecification.hasName(filter.getName()))
+                .and(PatientSpecification.hasGender(filter.getGender()))
+                .and(PatientSpecification.hasBloodGroup(filter.getBloodGroup()))
+                .and(PatientSpecification.hasMinAge(filter.getMinAge()))
+                .and(PatientSpecification.hasMaxAge(filter.getMaxAge()))
+                .and(PatientSpecification.hasInsurance(filter.getHasInsurance()));
+
+        Page<PatientResponseDto> result = patientRepository.findAll(spec, pageable)
+                .map(patientMapper::toDto);
+        return PageResponse.from(result);
     }
 }
