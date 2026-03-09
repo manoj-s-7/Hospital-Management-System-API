@@ -111,6 +111,11 @@ public class PatientController {
                 patientService.filterPatients(filter, PageRequest.of(page, size, sort))
         );
     }
+    @GetMapping("/recent")
+    public ResponseEntity<List<PatientResponseDto>> getRecentPatients(
+            @RequestParam(defaultValue = "5") int limit) {
 
+        return ResponseEntity.ok(patientService.getRecentPatients(limit));
+    }
 }
 

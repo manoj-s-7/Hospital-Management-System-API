@@ -107,3 +107,7 @@ Accept: application/json
 ### 17. patient filter(by name and gender)
 GET {{host}}/api/patients/filter?name=arjun&gender=male&bloodbloodGroup=A_Negative
 Accept: application/json
+
+### 18. Get Recent Patients
+
+GET {{host}}/api/patients/recent?limit=10

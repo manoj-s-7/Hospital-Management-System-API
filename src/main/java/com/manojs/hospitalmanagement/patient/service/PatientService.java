@@ -33,4 +33,6 @@ public interface PatientService {
     AgeGroupDto getAgeGroupStats();
 
     PageResponse<PatientResponseDto> filterPatients(PatientFilterDto filter, Pageable pageable);
+
+    public List<PatientResponseDto> getRecentPatients(int limit);
 }

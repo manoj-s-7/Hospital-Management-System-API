@@ -15,6 +15,7 @@ import com.manojs.hospitalmanagement.patient.service.PatientService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -109,5 +110,16 @@ public class PatientServiceImpl implements PatientService {
         Page<PatientResponseDto> result = patientRepository.findAll(spec, pageable)
                 .map(patientMapper::toDto);
         return PageResponse.from(result);
+    }
+
+    public List<PatientResponseDto> getRecentPatients(int limit) {
+
+        Pageable pageable = PageRequest.of(0, limit);
+
+        List<Patient> patients = patientRepository.findAllByOrderByCreatedAtDesc(pageable);
+
+        return patients.stream()
+                .map(patientMapper::toDto)
+                .toList();
     }
 }

@@ -3,6 +3,7 @@ package com.manojs.hospitalmanagement.patient.repository;
 import com.manojs.hospitalmanagement.patient.dto.AgeGroupDto;
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
 import com.manojs.hospitalmanagement.patient.dto.GenderDto;
+import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.entity.Patient;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -43,4 +44,6 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
         FROM patient p
         """, nativeQuery = true)
     AgeGroupDto getAgeGroupStats();
+
+    List<Patient> findAllByOrderByCreatedAtDesc(Pageable pageable);
 }
