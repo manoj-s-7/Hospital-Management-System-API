@@ -1,5 +1,6 @@
 package com.manojs.hospitalmanagement.patient.dto;
 
+import com.manojs.hospitalmanagement.insurance.dto.InsuranceRequestDto;
 import com.manojs.hospitalmanagement.patient.entity.type.BloodGroupType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -27,4 +28,6 @@ public class PatientRequestDto{
     String gender;
     @NotNull(message = "BloodGroup is required")
     BloodGroupType bloodGroup;
+
+    InsuranceRequestDto insuranceRequestDto;
 }

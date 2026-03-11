@@ -5,12 +5,14 @@ import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
 import com.manojs.hospitalmanagement.patient.entity.Patient;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(componentModel = "spring")
 public interface PatientMapper {
 
+    @Mapping(target = "insurance", source = "insuranceRequestDto")
     Patient toEntity(PatientRequestDto patientRequestDto);
 
     PatientResponseDto toDto(Patient patient);

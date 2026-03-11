@@ -10,7 +10,7 @@ Accept: application/json
 
 ### 3. Get Patient By ID
 
-GET {{host}}/api/patients/2
+GET {{host}}/api/patients/32
 Accept: application/json
 
 ### 4. Get Patient By Invalid ID (Error Test)
@@ -28,7 +28,12 @@ Content-Type: application/json
   "birthDate": "1986-12-14",
   "email": "tate987@gmail.com",
   "gender": "MALE",
-  "bloodGroup": "A_Negative"
+  "bloodGroup": "A_Negative",
+  "insuranceRequestDto": {
+        "policyNumber": "POL-784512",
+        "provider": "Star Health Insurance",
+        "validDate": "2027-12-31"
+  }
 }
 ### 6. Create Another Patient
 
@@ -71,7 +76,7 @@ Content-Type: application/json
 
 ### 9. Delete Patient
 
-DELETE {{host}}/api/patients/1
+DELETE {{host}}/api/patients/32
 
 ### 10. Delete Invalid Patient
 

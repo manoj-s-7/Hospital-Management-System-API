@@ -1,0 +1,51 @@
+### Get All Doctors
+GET http://localhost:8080/api/doctors?
+    page=0&
+    size=10&
+    sortField=name
+
+### Get Doctor by ID
+GET {{host}}/api/doctors/1
+
+### Get Doctor by ID - Not Found
+GET {{host}}/api/doctors/999
+
+### POST Create Doctor
+POST {{host}}/api/doctors
+Content-Type: application/json
+
+{
+  "name": "Dr. John Smith",
+  "specialisation": "Cardiology",
+  "email": "john.smith@hospital.com"
+}
+
+### PUT Update Doctor
+PUT {{host}}/api/doctors/1
+Content-Type: application/json
+
+{
+  "name": "Dr. John Smith Updated",
+  "specialisation": "Neurology",
+  "email": "john.updated@hospital.com"
+}
+
+### PATCH Partial Update - Name Only
+PATCH {{host}}/api/doctors/1
+Content-Type: application/json
+
+{
+  "name": "Dr. John Patched"
+}
+
+### DELETE Doctor
+DELETE {{host}}/api/doctors/10
+
+### DELETE Doctor - Not Found
+DELETE {{host}}/api/doctors/999
+
+### FILTER - By Name and Specialisation
+GET {{host}}/api/doctors/filter?name=john&specialisation=cardio
+
+### FILTER - By Department with Pagination
+GET {{host}}/api/doctors/filter?departmentName=neurology&page=0&size=5&sort=name,asc
