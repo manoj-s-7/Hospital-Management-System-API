@@ -1,5 +1,6 @@
 package com.manojs.hospitalmanagement.department.service.impl;
 
+import com.manojs.hospitalmanagement.department.dto.DepartmentRequestDto;
 import com.manojs.hospitalmanagement.department.dto.DepartmentResponseDto;
 import com.manojs.hospitalmanagement.department.entity.Department;
 import com.manojs.hospitalmanagement.department.mapper.DepartmentMapper;
@@ -9,7 +10,6 @@ import com.manojs.hospitalmanagement.doctor.dto.DoctorResponseDto;
 import com.manojs.hospitalmanagement.doctor.entity.Doctor;
 import com.manojs.hospitalmanagement.doctor.mapper.DoctorMapper;
 import com.manojs.hospitalmanagement.doctor.repository.DoctorRepository;
-import com.manojs.hospitalmanagement.doctor.service.DoctorService;
 import com.manojs.hospitalmanagement.exception.ResourceNotFoundException;
 import com.manojs.hospitalmanagement.patient.dto.PageResponse;
 import jakarta.transaction.Transactional;
@@ -17,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +38,26 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     public DoctorResponseDto addDoctorToDepartment(final Long doctorId, final Long departmentId) {
         Doctor doctor = doctorRepository.findById(doctorId)
-                .orElseThrow(()-> new ResourceNotFoundException("Doctor not found of id: "+ doctorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found of id: " + doctorId));
         Department department = departmentRepository.findById(departmentId)
-                .orElseThrow(()-> new ResourceNotFoundException("Department not found of id: "+ doctorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Department not found of id: " + departmentId));
 
         department.getDoctors().add(doctor);
-        doctor.getDepartments().add(department);   // 🔥 IMPORTANT
+        doctor.getDepartments().add(department);
 
         return doctorMapper.toDto(doctor);
+    }
+
+    @Override
+    @Transactional
+    public DepartmentResponseDto saveDepartment(DepartmentRequestDto dto) {
+        Doctor headDoctor = doctorRepository.findById(dto.getHeadDoctorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found with id: " + dto.getHeadDoctorId()));
+
+        Department department = departmentMapper.toEntity(dto);
+        department.setHeadDoctor(headDoctor);
+        department.getDoctors().add(headDoctor);
+
+        return departmentMapper.toDto(departmentRepository.save(department));
     }
 }

@@ -7,3 +7,11 @@ GET {{host}}/api/departments?
 ### Post Doctor to Department
 POST {{host}}/api/departments/4/doctor/21
 
+### post Department
+POST {{host}}/api/departments
+Content-Type: application/json
+
+{
+  "name": "Dentistry",
+  "headDoctorId": 1
+}

@@ -17,6 +17,6 @@ import java.time.LocalDateTime;
 public class DepartmentRequestDto{
     @NotBlank
     String name;
-    @NotNull
+    @NotBlank
     Long headDoctorId;
 }
