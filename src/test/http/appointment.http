@@ -1,0 +1,10 @@
+### Post create appointment
+POST {{host}}/api/appointments
+Content-Type: application/json
+
+{
+  "appointmentTime": "2024-07-01T10:00:00",
+  "patientId": 1,
+  "doctorId": 2,
+  "reason": "Regular check-up"
+}

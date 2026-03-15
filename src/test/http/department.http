@@ -5,7 +5,7 @@ GET {{host}}/api/departments?
     sortField=name
 
 ### Post Doctor to Department
-POST {{host}}/api/departments/4/doctor/21
+POST {{host}}/api/departments/7/doctor/21
 
 ### post Department
 POST {{host}}/api/departments
@@ -13,5 +13,5 @@ Content-Type: application/json
 
 {
   "name": "Dentistry",
-  "headDoctorId": 1
+  "headDoctorId": 21
 }

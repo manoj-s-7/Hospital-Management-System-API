@@ -15,7 +15,7 @@ public interface DoctorMapper {
 
     Doctor toEntity(DoctorRequestDto doctorRequestDto);
 
-    @Mapping(source = "departments" ,target = "departments")
+    @Mapping(source = "departments", target = "departments")
     DoctorResponseDto toDto(Doctor doctor);
 
     void updateDoctor(@MappingTarget Doctor doctor,DoctorRequestDto doctorRequestDto);

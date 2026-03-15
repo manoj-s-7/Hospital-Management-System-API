@@ -32,4 +32,10 @@ public class PatientTests {
 
     }
 
+    @Test
+    void getPatients(){
+        List<Patient> all = patientRepository.findAll();
+        System.out.println(all);
+    }
+
 }

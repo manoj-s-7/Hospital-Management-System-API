@@ -58,6 +58,6 @@ public class Patient {
     @JoinColumn(name = "insurance_id",unique = true)
     private Insurance insurance;
 
-    @OneToMany(mappedBy = "patient")
+    @OneToMany(mappedBy = "patient",cascade = CascadeType.ALL)
     private List<Appointment> appointment;
 }
