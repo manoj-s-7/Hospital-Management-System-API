@@ -7,4 +7,6 @@ import org.springframework.stereotype.Service;
 
 public interface AppointmentService {
     AppointmentResponseDTO createNewAppointment(AppointmentRequestDTO appointmentRequestDTO);
+
+    AppointmentResponseDTO reassignAppointment(AppointmentRequestDTO appointmentRequestDTO,Long id);
 }

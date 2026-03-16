@@ -13,7 +13,8 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring",uses = {AppointmentMapper.class})
 public interface PatientMapper {
 
-    @Mapping(target = "insurance", source = "insuranceRequestDto")
+    @Mapping(target = "appointment" ,source = "appointments")
+    @Mapping(target = "insurance", source = "insurance")
     Patient toEntity(PatientRequestDto patientRequestDto);
 
     @Mapping(target = "appointment",source = "appointment")

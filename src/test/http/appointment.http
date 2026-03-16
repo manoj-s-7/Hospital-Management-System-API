@@ -4,7 +4,15 @@ Content-Type: application/json
 
 {
   "appointmentTime": "2024-07-01T10:00:00",
-  "patientId": 1,
+  "patientId": 3,
   "doctorId": 2,
   "reason": "Regular check-up"
+}
+
+### Reassign appointment to another doctor
+PUT {{host}}/api/appointments/5
+Content-Type: application/json
+
+{
+  "doctorId": 3
 }

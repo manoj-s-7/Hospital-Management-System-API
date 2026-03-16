@@ -15,8 +15,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
@@ -41,5 +39,18 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setDoctor(doctor);
 
         return appointmentMapper.toResponseDTO(appointmentRepository.save(appointment));
+    }
+
+    @Override
+    @Transactional
+    public AppointmentResponseDTO reassignAppointment(AppointmentRequestDTO appointmentRequestDTO,Long id) {
+
+        Appointment appointment = appointmentRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
+        Doctor doctor = doctorRepository.findById(appointmentRequestDTO.getDoctorId())
+                .orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
+        appointmentMapper.partialUpdateAppointment(appointment,appointmentRequestDTO);
+        appointment.setDoctor(doctor);
+        return appointmentMapper.toResponseDTO(appointment);
     }
 }

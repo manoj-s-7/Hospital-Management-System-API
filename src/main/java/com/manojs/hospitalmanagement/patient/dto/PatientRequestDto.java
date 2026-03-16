@@ -1,5 +1,6 @@
 package com.manojs.hospitalmanagement.patient.dto;
 
+import com.manojs.hospitalmanagement.appointment.dto.AppointmentRequestDTO;
 import com.manojs.hospitalmanagement.insurance.dto.InsuranceRequestDto;
 import com.manojs.hospitalmanagement.patient.entity.type.BloodGroupType;
 import jakarta.validation.constraints.Email;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @RequiredArgsConstructor
@@ -29,5 +31,7 @@ public class PatientRequestDto{
     @NotNull(message = "BloodGroup is required")
     BloodGroupType bloodGroup;
 
-    InsuranceRequestDto insuranceRequestDto;
+    InsuranceRequestDto insurance;
+
+    List<AppointmentRequestDTO> appointments;
 }
