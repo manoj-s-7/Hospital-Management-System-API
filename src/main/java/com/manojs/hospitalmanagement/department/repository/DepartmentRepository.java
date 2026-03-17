@@ -7,10 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
+
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     @Query(value = "SELECT * FROM department", countQuery = "SELECT COUNT(*) FROM department",
             nativeQuery = true)
     Page<Department> findAllDepartments(Pageable pageable);
+
+    Page<Department> findAllByCreatedAt(LocalDateTime createdAt);
 
 }
