@@ -4,7 +4,7 @@ Content-Type: application/json
 
 {
   "appointmentTime": "2024-07-01T10:00:00",
-  "patientId": 3,
+  "patientId": 1,
   "doctorId": 2,
   "reason": "Regular check-up"
 }
@@ -23,4 +23,4 @@ GET {{host}}/api/appointments/doctor/2?page=0&size=10
 
 
 ### Get all appointments for a specific patient
-GET {{host}}/api/appointments/patient/3?page=0&size=10
+GET {{host}}/api/appointments/patient/1?page=0&size=10

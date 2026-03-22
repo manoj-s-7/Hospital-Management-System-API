@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class InsuranceServiceImpl implements InsuranceService {
@@ -87,5 +89,15 @@ public class InsuranceServiceImpl implements InsuranceService {
         }
 
         insuranceRepository.delete(insurance);
+    }
+
+    @Override
+    @Transactional
+    public PatientResponseDto disassociateInsuranceFromPatient(final Long patientId) {
+        Patient byId = patientRepository.findById(patientId)
+                .orElseThrow(()->new ResourceNotFoundException("patient not found of id : " + patientId));
+
+        byId.setInsurance(null);
+        return patientMapper.toDto(byId);
     }
 }

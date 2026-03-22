@@ -76,7 +76,7 @@ Content-Type: application/json
 
 ### 9. Delete Patient
 
-DELETE {{host}}/api/patients/33
+DELETE {{host}}/api/patients/1
 
 ### 10. Delete Invalid Patient
 

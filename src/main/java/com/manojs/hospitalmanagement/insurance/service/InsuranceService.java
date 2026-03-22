@@ -12,4 +12,6 @@ public interface InsuranceService {
     PatientResponseDto updateInsurance(Long patientId, InsuranceRequestDto updatedInsurance);
 
     void deleteInsurance(Long id);
+
+    PatientResponseDto disassociateInsuranceFromPatient(Long patientId);
 }
