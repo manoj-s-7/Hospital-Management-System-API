@@ -15,6 +15,4 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
             nativeQuery = true)
     Page<Department> findAllDepartments(Pageable pageable);
 
-    Page<Department> findAllByCreatedAt(LocalDateTime createdAt);
-
 }

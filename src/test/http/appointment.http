@@ -16,3 +16,11 @@ Content-Type: application/json
 {
   "doctorId": 3
 }
+
+
+### Get all appointments for a specific doctor
+GET {{host}}/api/appointments/doctor/2?page=0&size=10
+
+
+### Get all appointments for a specific patient
+GET {{host}}/api/appointments/patient/3?page=0&size=10

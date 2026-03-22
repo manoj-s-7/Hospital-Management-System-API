@@ -9,10 +9,13 @@ import com.manojs.hospitalmanagement.appointment.service.AppointmentService;
 import com.manojs.hospitalmanagement.doctor.entity.Doctor;
 import com.manojs.hospitalmanagement.doctor.repository.DoctorRepository;
 import com.manojs.hospitalmanagement.exception.ResourceNotFoundException;
+import com.manojs.hospitalmanagement.patient.dto.PageResponse;
 import com.manojs.hospitalmanagement.patient.entity.Patient;
 import com.manojs.hospitalmanagement.patient.repository.PatientRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +26,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final DoctorRepository doctorRepository;
     private final PatientRepository patientRepository;
     private final AppointmentMapper appointmentMapper;
-
 
     @Override
     @Transactional
@@ -52,5 +54,23 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointmentMapper.partialUpdateAppointment(appointment,appointmentRequestDTO);
         appointment.setDoctor(doctor);
         return appointmentMapper.toResponseDTO(appointment);
+    }
+
+    @Override
+    public PageResponse<AppointmentResponseDTO> getAppointmentsByDoctorId(Long id, Pageable pageable) {
+        Page<Appointment> allByDoctorId = appointmentRepository.findAllByDoctor_Id(id, pageable);
+        if (allByDoctorId.isEmpty()) {
+            throw new ResourceNotFoundException("Appointment not found");
+        }
+        return PageResponse.from(allByDoctorId.map(appointmentMapper::toResponseDTO));
+    }
+
+    @Override
+    public PageResponse<AppointmentResponseDTO> getAppointmentsByPatientId(final Long patientId, final Pageable pageable) {
+        Page<Appointment> allByPatientId = appointmentRepository.findAllByPatient_Id(patientId, pageable);
+        if (allByPatientId.isEmpty()) {
+            throw new ResourceNotFoundException("Appointment not found");
+        }
+        return PageResponse.from(allByPatientId.map(appointmentMapper::toResponseDTO));
     }
 }
